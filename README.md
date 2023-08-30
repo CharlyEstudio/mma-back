@@ -14,11 +14,17 @@ $ npm run mg:c --name src/db/migrations/<name-migration>
 
 ## Generate migration (only by entities create)
 ```bash
-$ npm run mg:g src/db/migrations/<name-migration>
+$ npm run mg:g --name src/db/migrations/<name-migration>
 ```
 
 ## Run migration
 By each create/generate migration
 ```bash
 $ npm run mg:r
+```
+
+## Revert migration
+By each create/generate migration
+```bash
+$ npm run mg:rv
 ```

@@ -3,8 +3,6 @@ import { DataSource } from 'typeorm';
 import * as fs from 'fs';
 import {config} from 'dotenv';
 
-console.log("Entrando data source");
-
 const envFilePath = __dirname + '/../../.env';
 const existPath = fs.existsSync(envFilePath);
 if (!existPath) {
@@ -22,7 +20,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_NAME || 'default',
   synchronize: false,
   logging: false,
-  entities: [__dirname + '/src/**/*.entity.ts'],
-  migrations: [__dirname + '/src/db/migrations/*.ts'],
+  entities: ['src/**/*.entity.ts'],
+  migrations: ['src/db/migrations/*.ts'],
   subscribers: [],
 });
