@@ -1,3 +1,3 @@
 export class CreateWeightClassDto {
-  weightClass: number;
+  weightClass: string;
 }

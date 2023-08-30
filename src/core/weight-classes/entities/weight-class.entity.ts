@@ -9,7 +9,7 @@ export class WeightClass {
   id: number;
 
   @Column({name: 'weight_class'})
-  weightClass: number;
+  weightClass: string;
 
   @OneToMany(() => Detail, (detail) => detail.weightClass)
   detail: Detail[];
