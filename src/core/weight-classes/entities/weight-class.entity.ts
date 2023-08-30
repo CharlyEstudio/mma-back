@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+
+// Entities
+import { Detail } from "../../details/entities/detail.entity";
 
 @Entity({name: 'weight_classes'})
 export class WeightClass {
@@ -8,8 +11,8 @@ export class WeightClass {
   @Column({name: 'weight_class'})
   weightClass: number;
 
-  // @OneToOne(() => Fighter, (fighter) => fighter.statistic)
-  // fighter: Fighter;
+  @OneToMany(() => Detail, (detail) => detail.weightClass)
+  detail: Detail[];
 
   @CreateDateColumn({name: 'created_at'})
   createdAt: Date;
