@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 // DTO's
 import { CreateFightDto } from './dto/create-fight.dto';
 import { UpdateFightDto } from './dto/update-fight.dto';
+import { UpdateFighterDto } from '../fighters/dto/update-fighter.dto';
 
 // Entities
 import { Fight } from './entities/fight.entity';
@@ -12,6 +13,7 @@ import { Fight } from './entities/fight.entity';
 // Services
 import { FightersService } from '../fighters/fighters.service';
 import { WeightClassesService } from '../weight-classes/weight-classes.service';
+import { StatisticsService } from '../statistics/statistics.service';
 
 @Injectable()
 export class FightsService {
@@ -20,6 +22,7 @@ export class FightsService {
     private readonly fightRepository: Repository<Fight>,
     private readonly fightersService: FightersService,
     private readonly weightClassService: WeightClassesService,
+    private readonly statisticsService: StatisticsService,
   ) {}
 
   async create(createFightDto: CreateFightDto): Promise<UpdateFightDto> {
@@ -94,11 +97,26 @@ export class FightsService {
       throw new NotFoundException();
     }
 
+    const winnerDB = await this.fightersService.findById(updateFightDto.winner.id);
+    if (!winnerDB) {
+      throw new NotFoundException();
+    }
+
     updateFightDto.fighterA = fighterADB;
     updateFightDto.fighterB = fighterBDB;
     updateFightDto.weightClass = weightClassDB;
+    const {winner, results, ...other} = updateFightDto;
+    updateFightDto.winner = winnerDB;
 
-    return await this.fightRepository.save(updateFightDto);
+    const update = await this.fightRepository.save(other);
+
+    let fighterWinner = new UpdateFighterDto();
+    if (winner) {
+      fighterWinner = winner.id === fighterADB.id ? fighterADB : fighterBDB;
+    }
+
+    await this.statisticsService.update(fighterWinner.statistic.id, results);
+    return update;
   }
 
   async remove(id: number): Promise<void> {

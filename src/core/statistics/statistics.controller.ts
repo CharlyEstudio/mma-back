@@ -27,7 +27,7 @@ export class StatisticsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStatisticDto: UpdateStatisticDto) {
+  update(@Param('id') id: string, @Body() updateStatisticDto: CreateStatisticDto) {
     return this.statisticsService.update(+id, updateStatisticDto);
   }
 

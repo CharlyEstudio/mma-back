@@ -36,7 +36,7 @@ export class StatisticsService {
     return statistic;
   }
 
-  async update(id: number, updateStatisticDto: UpdateStatisticDto): Promise<UpdateStatisticDto> {
+  async update(id: number, updateStatisticDto: CreateStatisticDto): Promise<UpdateStatisticDto> {
     const statisticDB = await this.findById(id);
 
     if (!statisticDB) {
