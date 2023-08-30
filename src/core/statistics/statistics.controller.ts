@@ -1,7 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { StatisticsService } from './statistics.service';
+
+// DTO's
 import { CreateStatisticDto } from './dto/create-statistic.dto';
 import { UpdateStatisticDto } from './dto/update-statistic.dto';
+
+// Services
+import { StatisticsService } from './statistics.service';
 
 @Controller('statistics')
 export class StatisticsController {
