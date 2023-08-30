@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 // Entities
 import { Detail } from "../../details/entities/detail.entity";
+import { Fight } from "../../fights/entities/fight.entity";
 
 @Entity({name: 'weight_classes'})
 export class WeightClass {
@@ -13,6 +14,9 @@ export class WeightClass {
 
   @OneToMany(() => Detail, (detail) => detail.weightClass)
   detail: Detail[];
+
+  @OneToMany(() => Fight, (fight) => fight.weightClass)
+  fight: Fight[];
 
   @CreateDateColumn({name: 'created_at'})
   createdAt: Date;
