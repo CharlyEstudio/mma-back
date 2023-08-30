@@ -21,7 +21,7 @@ export class Statistic {
   submissions: number;
 
   @OneToOne(() => Fighter, (fighter) => fighter.statistic)
-  fighter: Fighter
+  fighter: Fighter;
 
   @CreateDateColumn({name: 'created_at'})
   createdAt: Date;
