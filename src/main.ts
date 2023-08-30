@@ -12,11 +12,11 @@ async function bootstrap() {
     AppModule,
     {
       cors: true,
-      logger: ['error', 'fatal', 'warn']
+      logger: ['debug', 'error', 'fatal', 'warn']
     }
   );
 
-  logger.log(`Service run in ${AppModule.host}:${AppModule.port}`);
   await app.listen(AppModule.port, AppModule.host);
+  logger.debug(`Service run in ${AppModule.host}:${AppModule.port}`);
 }
 bootstrap();

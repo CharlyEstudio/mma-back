@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSourceOptions } from 'typeorm';
+import { ConnectionOptions } from 'typeorm';
 
 // Modules
 import { ConfigModule } from 'src/config/config.module';
@@ -22,7 +22,7 @@ export const dbService = [
         trace: true,
         logging: true,
         ssl: false,
-        type: 'postgres',
+        type: 'mysql',
         host: config.get(ConfigurationKeys.DATABASE_HOST),
         port: Number(config.get(ConfigurationKeys.DATABASE_PORT)),
         username: config.get(ConfigurationKeys.DATABASE_USER),
@@ -30,8 +30,8 @@ export const dbService = [
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         synchronize: false,
-        keepConnectionAlive: true,
-      } as DataSourceOptions;
+        keepConnectionAlive: false,
+      } as ConnectionOptions;
     },
   }),
 ];
