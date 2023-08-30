@@ -3,13 +3,16 @@ import { Module } from '@nestjs/common';
 // Config
 import { ConfigurationKeys } from './config/config.key';
 
-// Modules
+// Modules Config
 import { DbModule } from './db/db.module';
 import { ConfigModule as ConfigCustomModule } from './config/config.module';
 
 // Services
 import { ConfigService } from './config/config.service';
 import { ConfigModule } from '@nestjs/config';
+
+// Modules API
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -18,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     DbModule,
     ConfigCustomModule,
+    CoreModule,
   ],
   providers: [
     {
