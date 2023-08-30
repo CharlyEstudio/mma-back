@@ -20,7 +20,7 @@ export class Statistic {
   @Column()
   submissions: number;
 
-  @OneToOne(() => Fighter, (fighter) => fighter.statistic, {eager: true})
+  @OneToOne(() => Fighter, (fighter) => fighter.statistic)
   fighter: Fighter;
 
   @CreateDateColumn({name: 'created_at'})
