@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 // Entities
 import { Statistic } from '../../statistics/entities/statistic.entity';
+import { Detail } from "../../details/entities/detail.entity";
 
 @Entity()
 export class Fighter {
@@ -14,6 +15,10 @@ export class Fighter {
   @OneToOne(() => Statistic, (statistic) => statistic.fighter)
   @JoinColumn()
   statistic: Statistic;
+
+  @OneToOne(() => Detail, (detail) => detail.fighter, {eager: true})
+  @JoinColumn()
+  detail: Detail;
 
   @CreateDateColumn({name: 'created_at'})
   createdAt: Date;

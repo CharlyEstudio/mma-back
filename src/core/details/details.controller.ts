@@ -23,7 +23,7 @@ export class DetailsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.detailsService.findOne(+id);
+    return this.detailsService.findById(+id);
   }
 
   @Patch(':id')
