@@ -1,12 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm";
+
+// Entities
+import { Fighter } from "../../fighters/entities/fighter.entity";
 
 @Entity()
 export class Statistic {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({name: 'id_fighter'})
-  idFighter: number;
 
   @Column()
   wins: number;
@@ -19,6 +19,9 @@ export class Statistic {
 
   @Column()
   submissions: number;
+
+  @OneToOne(() => Fighter, (fighter) => fighter.statistic)
+  fighter: Fighter
 
   @CreateDateColumn({name: 'created_at'})
   createdAt: Date;

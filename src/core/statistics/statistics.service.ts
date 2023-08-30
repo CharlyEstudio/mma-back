@@ -17,12 +17,10 @@ export class StatisticsService {
   ) {}
 
   async create(createStatisticDto: CreateStatisticDto): Promise<UpdateStatisticDto> {
-    console.log(createStatisticDto);
-    
     return this.statisticsRepository.save(createStatisticDto);
   }
 
-  async findAll() {
+  async findAll(): Promise<UpdateStatisticDto[]> {
     return await this.statisticsRepository.find();
   }
 
