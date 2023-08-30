@@ -5,6 +5,9 @@ export class Statistic {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({name: 'id_fighter'})
+  idFighter: number;
+
   @Column()
   wins: number;
 
@@ -17,9 +20,9 @@ export class Statistic {
   @Column()
   submissions: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({name: 'created_at'})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({name: 'updated_at'})
   updatedAt: Date;
 }

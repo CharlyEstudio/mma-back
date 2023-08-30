@@ -27,6 +27,7 @@ export const dbService = [
         port: Number(config.get(ConfigurationKeys.DATABASE_PORT)),
         username: config.get(ConfigurationKeys.DATABASE_USER),
         password: config.get(ConfigurationKeys.DATABASE_PASSWORD),
+        database: config.get(ConfigurationKeys.DATABASE_NAME),
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         synchronize: false,

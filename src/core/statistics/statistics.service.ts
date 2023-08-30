@@ -1,26 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+// DTO's
 import { CreateStatisticDto } from './dto/create-statistic.dto';
 import { UpdateStatisticDto } from './dto/update-statistic.dto';
 
+// Entities
+import { Statistic } from './entities/statistic.entity';
+
 @Injectable()
 export class StatisticsService {
-  create(createStatisticDto: CreateStatisticDto) {
-    return 'This action adds a new statistic';
+  constructor(
+    @InjectRepository(Statistic)
+    private readonly statisticsRepository: Repository<Statistic>,
+  ) {}
+
+  async create(createStatisticDto: CreateStatisticDto): Promise<UpdateStatisticDto> {
+    console.log(createStatisticDto);
+    
+    return this.statisticsRepository.save(createStatisticDto);
   }
 
-  findAll() {
-    return `This action returns all statistics`;
+  async findAll() {
+    return await this.statisticsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} statistic`;
+  async findById(id: number): Promise<UpdateStatisticDto> {
+    const statistic = await this.statisticsRepository.findOne({
+      where: {id}
+    });
+
+    if (!statistic) {
+      throw new NotFoundException();
+    }
+
+    return statistic;
   }
 
-  update(id: number, updateStatisticDto: UpdateStatisticDto) {
-    return `This action updates a #${id} statistic`;
+  async update(id: number, updateStatisticDto: UpdateStatisticDto): Promise<UpdateStatisticDto> {
+    const statisticDB = await this.findById(id);
+
+    if (!statisticDB) {
+      throw new NotFoundException();
+    }
+
+    statisticDB.wins = updateStatisticDto.wins;
+    statisticDB.loses = updateStatisticDto.loses;
+    statisticDB.knokcouts = updateStatisticDto.submissions;
+
+    return await this.statisticsRepository.save(statisticDB);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} statistic`;
+  async remove(id: number): Promise<void> {
+    const statisticDB = this.findById(id);
+
+    if (!statisticDB) {
+      throw new NotFoundException();
+    }
+
+    await this.statisticsRepository.delete(id);
   }
 }

@@ -18,8 +18,8 @@ export class StatisticsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.statisticsService.findOne(+id);
+  findById(@Param('id') id: string) {
+    return this.statisticsService.findById(+id);
   }
 
   @Patch(':id')

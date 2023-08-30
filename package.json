@@ -16,7 +16,7 @@
     "mg:c": "ts-node ./node_modules/typeorm/cli.js migration:create",
     "mg:g": "ts-node ./node_modules/typeorm/cli.js migration:generate -d ./src/db/data-source.ts",
     "mg:r": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/db/data-source.ts",
-    "mg:rv": "ts-node ./node_modules/typeorm/cli.js migration:revert --config ./orm.config.json",
+    "mg:rv": "ts-node ./node_modules/typeorm/cli.js migration:revert -d ./src/db/data-source.ts",
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
   },
   "dependencies": {
