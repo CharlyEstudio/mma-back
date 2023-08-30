@@ -1,10 +1,41 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+
+// Config
+import { ConfigurationKeys } from './config/config.key';
+
+// Modules
+import { DbModule } from './db/db.module';
+import { ConfigModule as ConfigCustomModule } from './config/config.module';
+
+// Services
+import { ConfigService } from './config/config.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal : true,
+    }),
+    DbModule,
+    ConfigCustomModule,
+  ],
+  providers: [
+    {
+      provide: ConfigService,
+      useValue: new ConfigService(),
+    }
+  ],
+  exports: [],
 })
-export class AppModule {}
+export class AppModule {
+  static micorservicio: number | string;
+  static port: string;
+  static host: string;
+
+  constructor(
+    private readonly _configService: ConfigService
+  ) {
+    AppModule.port = this._configService.get(ConfigurationKeys.PORT);
+    AppModule.host = this._configService.get(ConfigurationKeys.HOST);
+  }
+}
