@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 
+// Interceptors
+import { CatchsInterceptor } from './config/pipes/catchs';
+import { ResponseInterceptor } from './config/pipes/response';
+
 // Logger
 const logger: Logger = new Logger('MMA BackEnd');
 
@@ -15,6 +19,10 @@ async function bootstrap() {
       logger: ['debug', 'error', 'fatal', 'warn']
     }
   );
+
+  // Interceptors
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new CatchsInterceptor());
 
   await app.listen(AppModule.port, AppModule.host);
   logger.debug(`Service run in ${AppModule.host}:${AppModule.port}`);
