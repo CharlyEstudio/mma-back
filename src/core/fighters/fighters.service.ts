@@ -9,9 +9,13 @@ import { UpdateFighterDto } from './dto/update-fighter.dto';
 // Entities
 import { Fighter } from './entities/fighter.entity';
 
+// DTO's
+import { CreateStatisticDto } from '../statistics/dto/create-statistic.dto';
+import { CreateDetailDto } from '../details/dto/create-detail.dto';
+
 // Services
 import { StatisticsService } from '../statistics/statistics.service';
-import { CreateStatisticDto } from '../statistics/dto/create-statistic.dto';
+import { DetailsService } from '../details/details.service';
 
 @Injectable()
 export class FightersService {
@@ -19,16 +23,26 @@ export class FightersService {
     @InjectRepository(Fighter)
     private readonly fighterRepository: Repository<Fighter>,
     private readonly statisticsService: StatisticsService,
+    private readonly detailsService: DetailsService,
   ) {}
 
   async create(createFighterDto: CreateFighterDto): Promise<UpdateFighterDto> {
     const newStatistic = new CreateStatisticDto();
-    newStatistic.wins = 0;
-    newStatistic.loses = 0;
-    newStatistic.knokcouts = 0;
-    newStatistic.submissions = 0;
+    newStatistic.wins = createFighterDto.statistic.wins;
+    newStatistic.loses = createFighterDto.statistic.loses;
+    newStatistic.knokcouts = createFighterDto.statistic.knokcouts;
+    newStatistic.submissions = createFighterDto.statistic.submissions;
     const newStatisticDB = await this.statisticsService.create(newStatistic);
+    
+    const newDetail = new CreateDetailDto();
+    newDetail.age = createFighterDto.detail.age;
+    newDetail.nationality = createFighterDto.detail.nationality;
+    newDetail.team = createFighterDto.detail.nationality;
+    newDetail.weightClass = createFighterDto.detail.weightClass;
+    const newDetailDB = await this.detailsService.create(newDetail);
+
     createFighterDto.statistic = newStatisticDB;
+    createFighterDto.detail = newDetailDB;
     return this.fighterRepository.save(createFighterDto);
   }
 
@@ -36,6 +50,7 @@ export class FightersService {
     return await this.fighterRepository.find({
       relations: {
         statistic: true,
+        detail: true,
       }
     });
   }
@@ -45,6 +60,7 @@ export class FightersService {
       where: {id},
       relations: {
         statistic: true,
+        detail: true,
       }
     });
 
@@ -62,7 +78,21 @@ export class FightersService {
       throw new NotFoundException();
     }
 
+    const statisticDB = await this.statisticsService.findById(updateFighterDto.statistic.id);
+
+    if (!statisticDB) {
+      throw new NotFoundException();
+    }
+
+    const detailDB = await this.detailsService.findById(updateFighterDto.detail.id);
+
+    if (!detailDB) {
+      throw new NotFoundException();
+    }
+
     fighterDB.name = updateFighterDto.name;
+    fighterDB.statistic = statisticDB;
+    fighterDB.detail = detailDB;
 
     return await this.fighterRepository.save(fighterDB);
   }

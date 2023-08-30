@@ -1,7 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { FightersService } from './fighters.service';
+
+// DTO's
 import { CreateFighterDto } from './dto/create-fighter.dto';
 import { UpdateFighterDto } from './dto/update-fighter.dto';
+
+// Services
+import { FightersService } from './fighters.service';
 
 @Controller('fighters')
 export class FightersController {

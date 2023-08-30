@@ -6,6 +6,7 @@ import { Fighter } from './entities/fighter.entity';
 
 // Modules
 import { StatisticsModule } from '../statistics/statistics.module';
+import { DetailsModule } from '../details/details.module';
 
 // Services
 import { FightersService } from './fighters.service';
@@ -14,7 +15,7 @@ import { FightersService } from './fighters.service';
 import { FightersController } from './fighters.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Fighter]), StatisticsModule],
+  imports: [TypeOrmModule.forFeature([Fighter]), StatisticsModule, DetailsModule],
   exports: [TypeOrmModule, FightersService],
   controllers: [FightersController],
   providers: [FightersService],
